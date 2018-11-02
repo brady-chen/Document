@@ -1,6 +1,6 @@
-#MongoDB语法
-###1.url连接语法
-###mongodb://[user:pwd@]host[:port][/dbname][?options]
+# MongoDB语法
+### 1.url连接语法
+### mongodb://[user:pwd@]host[:port][/dbname][?options]
 - mongodb://：这是固定的格式，必须要指定
 - username:password@：可选项，如果设置，在连接数据库服务器之后，驱动都会尝试登陆这个数据库
 - host1：必须的指定至少一个host, host1 是这个URI唯一要填写的。它指定了要连接服务器的地址。
