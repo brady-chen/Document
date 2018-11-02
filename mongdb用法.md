@@ -1,6 +1,6 @@
-#MongoDB语法
-###1.url连接语法
-###mongodb://[user:pwd@]host[:port][/dbname][?options]
+# MongoDB语法
+### 1.url连接语法
+### mongodb://[user:pwd@]host[:port][/dbname][?options]
 - mongodb://：这是固定的格式，必须要指定
 - username:password@：可选项，如果设置，在连接数据库服务器之后，驱动都会尝试登陆这个数据库
 - host1：必须的指定至少一个host, host1 是这个URI唯一要填写的。它指定了要连接服务器的地址。
@@ -8,11 +8,11 @@
 - /database：如果指定username:password@，连接并验证登陆指定数据库。若不指定，默认打开 test 数据库。
 - ?options：是连接选项。如果不使用/database，则前面需要加/。所有连接选项都是键值对name=value，键值对之间通过&或；隔开
 
-###2.mongo程序连接
-###mongo host:port/dbname -u user -p pwd
-###3.增加文档
-###db.coll.insert(document)
-###4.更新文档​
+### 2.mongo程序连接
+### mongo host:port/dbname -u user -p pwd
+### 3.增加文档
+### db.coll.insert(document)
+### 4.更新文档​
 ```
 db.collection.update(
     query,
@@ -34,10 +34,10 @@ db.collection.update(
 ### 5.删除文档
 ```
 db.collection.remove(
-    <font color=#090>query</font>,
+    query,
     {
-    justOne: <font color=#090>boolean</font>,
-    writeConcern: <font color=#090>document</font>
+    justOne: boolean,
+    writeConcern: document
     }
 )
 ```
@@ -55,11 +55,11 @@ db.inventory.deleteMany({status: "A"})
 db.inventory.deleteOne({status: "D"})
 ```
 
-###6.查询文档
+### 6.查询文档
 ```
 db.collection.find(
-    <font color=#090>query</font>, 
-    <font color=#090>projection</font>
+    query,
+    projection
 )
 ```
 - query ：可选，使用查询操作符指定查询条件  
