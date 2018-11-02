@@ -78,6 +78,144 @@ a is b
 首尾双下划线|\__var__|表示Python语言定义的特殊方法/魔术方法，或者是系统定义的变量，避免使用这种命名方式
 单下划线|_|临时变量
 ### 6.继承父类的两种方式
+**查看类的解析顺序**
 ```python
-print('hello world')
+class.mro()
+```
+**普通继承**
+```python
+class Parent:
+    def __init__(self):
+        self.parent = 'I\'m the parent.'
+        print('Parent')
+
+    def name(self, message):
+        print(message, 'from Parent')
+
+class Child(Parent):
+    def __init__(self):
+        Parent.__init__(self)
+        print('Child')
+        
+    def name(self,message):
+        Parent.name(self,message)
+        print('Child Name function.')
+        print(self.parent)
+        
+if __name__=='__main__':
+    Child = Child()
+    Child.name('HelloWorld')
+```
+**super继承**
+```python
+class Parent(object):
+    def __init__(self):
+        self.parent = 'I\'m the parent.'
+        print('Parent')
+
+    def name(self, message):
+        print(message, 'from Parent')
+
+
+class Child(Parent):
+    def __init__(self):
+        super(Child, self).__init__()
+        print('Child')
+
+    def name(self, message):
+        super(Child, self).name(message)
+        print('Child name fuction')
+        print(self.parent)
+        
+
+if __name__ == '__main__':
+    child = Child()
+    child.name('HelloWorld')
+```
+**super在多继承中的使用**
+```python
+class A(object):
+    def act(self):
+        print("call A act method ....")
+
+class B(object):
+    def act(self):
+        print("call B act method ....")
+
+class C(B, A):       # 搜索的顺序会从B开始搜索，B存在act方法则调用并返回，不再继续搜索
+    def act(self):
+        super().act()
+
+if __name__ == '__main__':
+    c = C()
+    c.act()
+```
+**运行时可改变类的继承树**
+```python
+class X(object):
+    def m1(self):
+        print("call X method")
+
+class Y(object):
+    def m1(self):
+        print("call Y method")
+
+class Z(X):
+    def m1(self):
+        super().m1()
+
+def test_z():
+    z = Z()
+    z.m1()
+    print("change Z class base for Y ....")
+    Z.__bases__ = (Y,)
+    z.m1()
+
+if __name__ == '__main__':
+    test_z()
+
+```
+**多继承中，按照广度优先的继承树搜索关系调用父类相同名称的方法**
+```python
+class IA(object):
+    def __init__(self):
+        print("call IA init ...")
+
+    def msg(self):
+        print('IA send msg')
+
+class IB(IA):
+    def __init__(self):
+        print("call IB init ....")
+        super().__init__()
+
+    def msg(self):
+        print('IB send msg')
+        super().msg()
+
+class IC(IA):
+    def __init__(self):
+        print("call IC init ....")
+        super().__init__()
+
+    def msg(self):
+        print('IC send msg')
+        super().msg()
+
+class ID(IC, IB):
+    def __init__(self):
+        print("call ID init ...")
+        super().__init__()
+
+    def msg(self):
+        print('ID send msg')
+        super().msg()
+
+def test_ID():
+    d = ID()
+    print(d.msg())
+
+if __name__ == '__main__':
+    test_ID()
+
 ```
