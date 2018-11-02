@@ -9,10 +9,10 @@
 - ?options：是连接选项。如果不使用/database，则前面需要加/。所有连接选项都是键值对name=value，键值对之间通过&或；隔开
 
 ### 2.mongo程序连接
-###mongo host:port/dbname -u user -p pwd
-###3.增加文档
-###db.coll.insert(document)
-###4.更新文档​
+### mongo host:port/dbname -u user -p pwd
+### 3.增加文档
+### db.coll.insert(document)
+### 4.更新文档​
 ```
 db.collection.update(
     query,
@@ -55,7 +55,7 @@ db.inventory.deleteMany({status: "A"})
 db.inventory.deleteOne({status: "D"})
 ```
 
-###6.查询文档
+### 6.查询文档
 ```
 db.collection.find(
     <font color=#090>query</font>, 
