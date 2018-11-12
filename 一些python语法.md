@@ -1,3 +1,5 @@
+# 关于python的知识与技巧
+## 一、python代码小技巧
 ### 1.字符串格式化
 - 建议：python3.6以上推荐使用**f-string**，其他版本使用**format**
 
@@ -77,7 +79,17 @@ a is b
 双前下划线|__var|私有变量、私有函数
 首尾双下划线|\__var__|表示Python语言定义的特殊方法/魔术方法，或者是系统定义的变量，避免使用这种命名方式
 单下划线|_|临时变量
-### 6.继承父类的两种方式
+
+## 二、面向对象
+### 1.关于继承
+- 面向对象编程 (OOP) 语言的一个主要功能就是“继承”。继承是指这样一种能力：它可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。
+- 通过继承创建的新类称为“子类”或“派生类”，被继承的类称为“基类”、“父类”或“超类”，继承的过程，就是从一般到特殊的过程。在某些 OOP 语言中，一个子类可以继承多个基类。但是一般情况下，一个子类只能有一个基类，要实现多重继承，可以通过多级继承来实现。
+- 继承概念的实现方式主要有2类：实现继承、接口继承：
+ 1. 实现继承是指使用基类的属性和方法而无需额外编码的能力。
+ 2. 接口继承是指仅使用属性和方法的名称、但是子类必须提供实现的能力(子类重构爹类方法)。
+- 在考虑使用继承时，有一点需要注意，那就是两个类之间的关系应该是“属于”关系。例如，Employee 是一个人，Manager 也是一个人，因此这两个类都可以继承 Person 类。但是 Leg 类却不能继承 Person 类，因为腿并不是一个人。
+- OO开发范式大致为：划分对象→抽象类→将类组织成为层次化结构(继承和合成) →用类与实例进行设计和实现几个阶段。
+
 **查看类的解析顺序**
 ```python
 class.mro()
@@ -217,5 +229,85 @@ def test_ID():
 
 if __name__ == '__main__':
     test_ID()
-
 ```
+### 7.关于多态
+- 在一个函数中，如果我们接收一个变量 x，则无论该 x 是 Person、Student还是 Teacher，都可以正确打印出结果：
+
+```python
+class Person:
+    def __init__(self, name, gender):
+        self.name = name
+        self.gender = gender
+
+    def who_am_i(self):
+        return 'I am a Person, my name is %s' % self.name
+
+class Student(Person):
+    def __init__(self, name, gender, score):
+        Person.__init__(self, name, gender)
+        # super(Student, self).__init__(name, gender)
+        self.score = score
+
+    def who_am_i(self):
+        return 'I am a Student, my name is %s' % self.name
+
+class Teacher(Person):
+    def __init__(self, name, gender, course):
+        Person.__init__(self, name, gender)
+        # super(Teacher, self).__init__(name, gender)
+        self.course = course
+
+    def who_am_i(self):
+        return 'I am a Teacher, my name is %s' % self.name
+
+def who_am_i(x):
+    print(x.who_am_i())
+
+p = Person('Tim', 'Male')
+s = Student('Bob', 'Male', 88)
+t = Teacher('Alice', 'Female', 'English')
+
+who_am_i(p)
+who_am_i(s)
+who_am_i(t)
+```
+
+运行结果：
+I am a Person, my name is Tim
+I am a Student, my name is Bob
+I am a Teacher, my name is Alice
+
+- 这种行为称为多态。也就是说，方法调用将作用在 x 的实际类型上。s 是Student类型，它实际上拥有自己的 whoAmI()方法以及从 Person继承的 whoAmI方法，但调用 s.whoAmI()总是先查找它自身的定义，如果没有定义，则顺着继承链向上查找，直到在某个父类中找到为止。
+
+## 三、Python基础
+
+### 1.Python中浅拷贝与深拷贝问题
+```
+# 对可变的数据类型进行引用时，需进行深拷贝，否则不会开辟新内存来存放新对象j
+# 单层级使用copy()
+a = [1, 2, 3]
+b = a.copy()
+b = [3, 4, 5]
+print(a, b)
+>>>[1, 2, 3] [3, 4, 5]
+# 多层级使用deepcopy
+import copy
+a = [1, 2, [2, 4, 5]]
+b = copy.deepcopy(a)
+a[2][0] = 3
+print(a, b)
+>>>[1, 2, [3, 4, 5]] [1, 2, [2, 4, 5]]
+```
+
+### 2.数据类型
+**标准数据类型**
+python3中有六个标准的数据类型
+- Number(数字)
+- String（字符串）
+- List（列表）
+- Tuple（元组）
+- Set（集合）
+- Dictionary（字典）
+其中：
+- **不可变数据（3个）**：Number（数字）、String（字符串）、Tuple（元组）；
+- **可变数据（3个）**：List（列表）、Dictionary（字典）、Set（集合）。
